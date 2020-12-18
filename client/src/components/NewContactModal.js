@@ -22,7 +22,7 @@ export default function NewContactModal({ closeModal }) {
   <Form onSubmit = {handleSubmit}>
 
   <Form.Group>
-  <Form.Label>Id </Form.Label>
+  <Form.Label>ID </Form.Label>
   <Form.Control type = "text" ref={idRef} required />
   </Form.Group>
 

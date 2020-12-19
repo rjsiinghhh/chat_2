@@ -26,6 +26,8 @@ const ConversationsContext = React.createContext()
           let madeChange = false
          const newMessage = { sender, text }
          const newConversations = prevConversations.map(conversation => {
+
+
          if (arrayEquality(conversation.recipients, recipients)) {
            madeChange = true
            return {
@@ -48,27 +50,38 @@ const ConversationsContext = React.createContext()
       }
 
       function sendMessage(recipients, text) {
-        addMessageToConversation({ recipients, text, sender:id })
+        addMessageToConversation({ recipients, text, sender: id })
       }
 
-
       const formattedConversations = conversations.map((conversation, index) => {
-      const recipients = conversation.recipients.map(recipient => {
-      const contact = contacts.find(contact => {
-        return contact.id === recipient
-          })
-      const name = (contact && contact.name) || recipient
-        return { id: recipient, name}
-        })
-      const selected = index === selectedConversationIndex
-        return { ...conversation, recipients, selected }
+       const recipients = conversation.recipients.map(recipient => {
+         const contact = contacts.find(contact => {
+           return contact.id === recipient
+         })
+         const name = (contact && contact.name) || recipient
+         return { id: recipient, name }
+       })
+
+       const messages = conversation.messages.map(message => {
+         const contact = contacts.find(contact => {
+           return contact.id === message.sender
+         })
+         const name = (contact && contact.name) || message.sender
+         const fromMe = id === message.sender
+         return { ...message, senderName: name, fromMe }
+       })
+
+       const selected = index === selectedConversationIndex
+       return { ...conversation, messages, recipients, selected }
       })
 
       const value = {
-        conversations: formattedConversations, selectedConversation: formattedConversations[selectedConversationIndex], sendMessage, selectedConversationIndex: setSelectedConversationIndex, createConversation
+       conversations: formattedConversations,
+       selectedConversation: formattedConversations[selectedConversationIndex],
+       sendMessage,
+       selectConversationIndex: setSelectedConversationIndex,
+       createConversation
       }
-
-
   return (
     <ConversationsContext.Provider value={value}>
     {children}
@@ -88,7 +101,3 @@ function arrayEquality(a, b) {
     return element === b[index]
   })
 }
-
-
-//
-// 109

@@ -24,7 +24,7 @@ onIdSubmit(idRef.current.value);
   <Form.Label>Enter Your ID </Form.Label>
   <Form.Control type="text" ref={idRef} required></Form.Control>
   </Form.Group>
-<Button type="submit" className="mr-2"> Login </Button>
+<Button type="submit" className="mr-2 btn btn-dark"> Login </Button>
 <Button onClick={createNewId} variant="secondary"> Create A New ID</Button>
   </Form>
   </Container>
